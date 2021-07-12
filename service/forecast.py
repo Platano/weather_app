@@ -10,16 +10,16 @@ API_KEY = os.environ["API_KEY"]
 API_URL = os.environ["API_URL"]
 API_KEY_OPEN_CAGE = os.environ["API_KEY_OPEN_CAGE"]
 API_URL_OPEN_CAGE = os.environ["API_KEY_OPEN_CAGE"]
-coordinates = { "lat" : float, "lon" : float}
+
 
 class Forecast:
       
     def __init__(self, location : str):
         
-        coordinates = self._lat_and_lon(location)
+        self.loc_info = self._lat_and_lon(location)
 
         try:
-            self.response = requests.get(f"{API_URL}onecall?lat={coordinates['lat']}&lon={coordinates['lon']}&appid={API_KEY}&units=imperial")
+            self.response = requests.get(f"{API_URL}onecall?lat={self.loc_info['lat']}&lon={self.loc_info['lon']}&appid={API_KEY}&units=imperial")
         except URLError as e:
             print(e.reason)   
 
@@ -38,21 +38,26 @@ class Forecast:
         except URLError as e:
             print(e.reason)
 
-        parameters = response.json()
-   
-        coordinates = { "lat": float(parameters['results'][0]['geometry']['lat']), 
-                        "lon": float(parameters['results'][0]['geometry']['lng'])}
-
-        return coordinates
+        loc_info_response = response.json()
+        return  { 
+                    "lat" : float(loc_info_response['results'][0]['geometry']['lat']), 
+                    "lon" : float(loc_info_response['results'][0]['geometry']['lng']),
+                    "city" : loc_info_response['results'][0]['components']['city'],
+                    "state" : loc_info_response['results'][0]['components']['state'],
+                    "country" : loc_info_response['results'][0]['components']['country'] 
+                }
    
     def _results(self):
-        results = Location( coordinates['lat'], 
-                            coordinates['lon'], 
+        return Location( 
+                            self.loc_info['lat'], 
+                            self.loc_info['lon'], 
+                            self.loc_info['city'],
+                            self.loc_info['state'],
+                            self.loc_info['country'],
                             self.data['timezone_offset'],
                             {
                                 "current" : self.data['current'], 
                                 "hourly" : self.data['hourly'],
                                 "daily" : self.data['daily'],
                             },
-                          )
-        return results        
+                        )        

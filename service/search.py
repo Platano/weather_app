@@ -9,10 +9,13 @@ class Search:
 
     #Get search results
     def _get_results(self):
-        return { 
-            "current" : self.results._get_current_weather(),
-            "hourly" : self.results._get_hourly_weather(),
-            "daily" : self.results._get_daily_weather()
-        }
+        return {
+                "city" : self.results.city,
+                "state" : self.results.state,
+                "country" : self.results.country,
+                "current" : self.results._get_current_weather(),
+                "hourly": self.results._get_hourly_weather(),
+                "daily" : self.results._get_daily_weather()
+               }
 
     

@@ -1,6 +1,8 @@
+from logging import debug
 from search import Search
 from fastapi import FastAPI
 import uvicorn
+import os
 
 #Search for weather in location
 
@@ -15,5 +17,9 @@ def get_weather(location : str):
     except UnboundLocalError:
         print("UnboundLocalError: Please enter a zip code, country code, city name, or state")
 
+def get_boolean_env(key: str):
+    return os.getenv(key, "False").lower() in ("true", "1", "t")
+
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    debug = get_boolean_env("DEBUG")
+    uvicorn.run(app, host="0.0.0.0", port=8000, reload=debug)

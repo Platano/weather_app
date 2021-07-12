@@ -14,16 +14,20 @@ Weekday = {
     '6' : "Saturday",
 }
 
-
 class Location:
 
     #Create location object with latitude, longitude, and weather
-    def __init__(self, lat : float, lon : float, timezone_offset : int, weather : Dict):
+    def __init__(self, lat : float, lon : float,  city : str, state : str, country : str, timezone_offset : int, weather : Dict):
         self.lat = lat
         self.lon = lon 
+        self.city = city
+        self.state = state
+        self.country = country
         self.timezone_offset = timezone_offset
         self.weather = weather
+        print(f"{city},{state},{country}")
     
+
     #TODO: Add more data to display in front end
     def _get_current_weather(self):
         return {
@@ -38,6 +42,7 @@ class Location:
             'main' :self.weather['current']['weather'][0]['main'],
             'description' : self.weather['current']['weather'][0]['description'],
             'wind_speed' : self.weather['current']['wind_speed'],
+            'clouds' : self.weather['current']['clouds'],
         }
 
     #TODO: Build hourly Dict
@@ -56,6 +61,7 @@ class Location:
                 'main' : self.weather['hourly'][index]['weather'][0]['main'],
                 'description' : self.weather['hourly'][index]['weather'][0]['description'],
                 'wind_speed' : self.weather['hourly'][index]['wind_speed'],
+                'clouds' : self.weather['hourly'][index]['clouds'],
             } })
             if (time < HOURS_IN_A_DAY - 1):
                 time = time + 1
@@ -98,9 +104,11 @@ class Location:
                         }
                     }
             )
+
             if (day < DAYS_IN_A_WEEK - 1):
                 day = day + 1
             else:
                 day = 0    
-            index = index + 1           
+            index = index + 1  
+
         return daily   
