@@ -1,0 +1,19 @@
+from search import Search
+from fastapi import FastAPI
+import uvicorn
+
+#Search for weather in location
+
+app = FastAPI()
+
+@app.get("/weather/{location}")
+def get_weather(location : str):
+    #Search attempt 
+    try:
+        search = Search(location)
+        return search._get_results() 
+    except UnboundLocalError:
+        print("UnboundLocalError: Please enter a zip code, country code, city name, or state")
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8000)
