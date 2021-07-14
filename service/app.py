@@ -4,21 +4,25 @@ from fastapi import FastAPI
 import uvicorn
 import os
 
-#Search for weather in location
+# Search for weather in location
 
 app = FastAPI()
 
+
 @app.get("/weather/{location}")
-def get_weather(location : str):
-    #Search attempt 
+def get_weather(location: str):
+    # Search attempt
     try:
         search = Search(location)
-        return search._get_results() 
+        return search._get_results()
     except UnboundLocalError:
-        print("UnboundLocalError: Please enter a zip code, country code, city name, or state")
+        print(
+            "UnboundLocalError: Please enter a zip code, country code, city name, or state")
+
 
 def get_boolean_env(key: str):
     return os.getenv(key, "False").lower() in ("true", "1", "t")
+
 
 if __name__ == "__main__":
     debug = get_boolean_env("DEBUG")
