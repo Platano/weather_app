@@ -1,7 +1,7 @@
-import React from 'react';
 import { render } from 'react-dom';
-import App from "./components/App";
+import * as React from "react";
+import { App } from "./components/App";
 
-const root = document.getElementById("root");
+const rootWeather = document.getElementById("root");
 
-render (<App />, root);
+render(<App />, rootWeather);

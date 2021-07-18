@@ -1,9 +1,9 @@
-import React from 'react'
+import * as React from 'react'
 
 export function DailyWeather() {
     return (
-        <div>
-            
+        <div className="font-bold">
+            Daily Weather
         </div>
     )
 }
