@@ -23,7 +23,8 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-hot-loader": "^4.13.0",
-    "react-router-dom": "^5.2.0",
+    "react-router": "^5.2.0",
+    "react-router-dom": "^6.0.0-beta.0",
     "react-scripts": "^1.1.5",
     "react-search-field": "^2.0.1",
     "webpack-sources": "^2.1.1"
@@ -62,7 +63,6 @@
     "@babel/preset-typescript": "^7.14.5",
     "@types/react": "^17.0.14",
     "@types/react-dom": "^17.0.9",
-    "@types/react-router-dom": "^5.1.8",
     "autoprefixer": "^10.3.1",
     "babel-core": "^7.0.0-bridge.0",
     "babel-loader": "^8.2.2",

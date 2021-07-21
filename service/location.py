@@ -53,7 +53,8 @@ class Location:
         while (index < HOURS_IN_A_DAY):
             hourly.append(
                 {
-                    time: {
+                    "time" : time,
+                    "data" : {
                         'temp': self.weather['hourly'][index]['temp'],
                         'feels_like': self.weather['hourly'][index]['feels_like'],
                         'uvindex': self.weather['hourly'][index]['uvi'],
@@ -84,7 +85,8 @@ class Location:
         while (index <= DAYS_IN_A_WEEK):
             daily.append(
                 {
-                    Weekday[str(day)]: {
+                    "day" : Weekday[str(day)],
+                    "data" : {
                         'temp': {
                             'day': self.weather['daily'][index]['temp']['day'],
                             'min': self.weather['daily'][index]['temp']['min'],
