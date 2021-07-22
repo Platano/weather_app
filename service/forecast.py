@@ -46,14 +46,21 @@ class Forecast:
         try:
             city = loc_info_response['results'][0]['components']['city']
             state = loc_info_response['results'][0]['components']['state']
-        except KeyError or IndexError:
+        except KeyError:
             state = ""
-            city = ""  
+        except IndexError:
+            city = "" 
 
+        try:
+            lat = float(loc_info_response['results'][0]['geometry']['lat'])
+            lon = float(loc_info_response['results'][0]['geometry']['lng'])
+        except IndexError:
+            lat = ""
+            lon = ""
 
         return {
-            "lat": float(loc_info_response['results'][0]['geometry']['lat']),
-            "lon": float(loc_info_response['results'][0]['geometry']['lng']),
+            "lat": lat,
+            "lon": lon,
             "city": city,
             "state": state,
             "country": loc_info_response['results'][0]['components']['country']

@@ -30,7 +30,7 @@ def get_weather(location: str):
         return search._get_results()
     except UnboundLocalError:
         print(
-            "UnboundLocalError: Please enter a zip code, country code, city name, or state")
+            "Please enter a zip code, country code, city name, or state")
 
 def get_boolean_env(key: str):
     return os.getenv(key, "False").lower() in ("true", "1", "t")

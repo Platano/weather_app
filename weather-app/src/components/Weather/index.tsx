@@ -1,9 +1,9 @@
-import * as React from 'react'
+import axios, { AxiosResponse } from "axios";
+import * as React from 'react';
 import { useEffect, useState } from "react";
 import SearchField from "react-search-field";
 import { TIME_FORMAT, WeatherData } from '../../types';
 import "./../../assets/css/tailwind.css";
-import axios, { AxiosResponse } from "axios";
 
 export function Weather() : React.ReactElement {
   const [location, setLocation] = useState<string>();
@@ -11,7 +11,6 @@ export function Weather() : React.ReactElement {
   const [error, setError] = useState(null);
   
   
-
   function weatherInfo<T>(loc : string): Promise<AxiosResponse<T>>{
     return axios.get<T>(`http://localhost:8000/weather/${loc}`, {
       headers: { "Access-Control-Allow-Origin": true },
@@ -76,12 +75,11 @@ export function Weather() : React.ReactElement {
             <div>{weatherData.current.date}</div>
             <div className="p-3 flex justify-center">
               <div>
+                <span className="font-bold text-lg">
+                  {weatherData.current.time}
+                </span>
                 <div className="font-bold">Current Weather</div>
-                <ul className="grid grid-cols-7 text-md pt-5 pb-5">
-                  <li className="p-3">
-                    <span className="font-bold">Current Time:</span>{" "}
-                    {weatherData.current.time}
-                  </li>
+                <ul className="grid grid-cols-6 text-md pt-5 pb-5">
                   <li className="p-3">
                     <span className="font-bold">Temperature:</span>{" "}
                     {weatherData.current.temp} °F
@@ -107,10 +105,9 @@ export function Weather() : React.ReactElement {
                   </li>
                 </ul>
               </div>
-
             </div>
             <div>
-              <div className="font-bold mb-3">Hourly Weather </div>
+              <div className="font-bold mb-3">Hourly Weather</div>
               <ul className="grid grid-cols-8">
                 {weatherData.hourly.map((hourly, key) => {
                   return (
@@ -174,20 +171,80 @@ export function Weather() : React.ReactElement {
                 })}
               </ul>
             </div>
-            
+
             <div>
-                <div className="font-bold mb-3">Daily Weather </div>
-                <ul className="grid grid-cols-8">
-                  {weatherData.daily.map((daily, key) => {
-                    return (
-                      <li className="text-xs" key={key}>
-                        <span className="font-bold">{daily.day}</span>
-                        <span></span>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
+              <div className="font-bold mb-3">Daily Weather</div>
+              <ul className="grid grid-cols-8">
+                {weatherData.daily.map((daily, key) => {
+                  return (
+                    <li className="text-xs" key={key}>
+                      <span className="font-bold">{daily.day}</span>
+                      <span>
+                        <div className="font-bold p-4">Temp</div>
+                        <ul className="grid grid-cols-2">
+                          <li key={key}>
+                            <span className="font-bold">Min:</span>{" "}
+                            {daily.data.temp.min} °F
+                          </li>
+                          <li key={key}>
+                            <span className="font-bold">Max:</span>{" "}
+                            {daily.data.temp.max} °F
+                          </li>
+                          <li key={key}>
+                            <span className="font-bold">Morn:</span>{" "}
+                            {daily.data.temp.morn} °F
+                          </li>
+                          <li key={key}>
+                            <span className="font-bold">Day:</span>{" "}
+                            {daily.data.temp.day} °F
+                          </li>
+                          <li key={key}>
+                            <span className="font-bold">Eve:</span>{" "}
+                            {daily.data.temp.eve} °F
+                          </li>
+                          <li key={key}>
+                            <span className="font-bold">Night:</span>{" "}
+                            {daily.data.temp.night} °F
+                          </li>
+                        </ul>
+                      </span>
+                      <div className="p-4">
+                        <div className="font-bold pb-4">Feels Like</div>
+                        <ul className="grid grid-cols-2">
+                          <li key={key}>
+                            <span className="font-bold">Morn: </span>
+                            {daily.data.feels_like.morn}
+                          </li>
+                          <li key={key}>
+                            <span className="font-bold">Day: </span>
+                            {daily.data.feels_like.day}
+                          </li>
+                          <li key={key}>
+                            <span className="font-bold">Eve: </span>
+                            {daily.data.feels_like.day}
+                          </li>
+                          <li key={key}>
+                            <span className="font-bold">Night: </span>
+                            {daily.data.feels_like.night}
+                          </li>
+                        </ul>
+                      </div>
+                      <div>
+                        <span className="mr-2">
+                          <span className="font-bold">Humidity: </span>{" "}
+                          {daily.data.humidity}%
+                        </span>
+                        <span>
+                          {" "}
+                          <span className="font-bold">Dew Point: </span>{" "}
+                          {daily.data.dew_point} °F
+                        </span>
+                      </div>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
           </div>
         )}
       </div>
