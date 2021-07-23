@@ -42,6 +42,7 @@ class Location:
             'main': self.weather['current']['weather'][0]['main'],
             'description': self.weather['current']['weather'][0]['description'],
             'wind_speed': self.weather['current']['wind_speed'],
+            'wind_deg' : self.weather['current']['wind_deg'],
             'clouds': self.weather['current']['clouds'],
         }
 
@@ -50,21 +51,28 @@ class Location:
         hourly = []
         time = int(datetime.utcfromtimestamp(
             self.weather['hourly'][0]['dt'] + self.timezone_offset).strftime('%H'))
+
+        try:
+            wind_speed = self.weather['hourly'][index]['weather'][0]['wind_speed']
+        except KeyError:
+            wind_speed = 0
+
+        try:
+            wind_deg = self.weather['hourly'][index]['weather'][0]['wind_deg']
+        except KeyError:
+            wind_deg = ""
+
         while (index < HOURS_IN_A_DAY):
             hourly.append(
                 {
                     "time" : time,
                     "data" : {
                         'temp': self.weather['hourly'][index]['temp'],
-                        'feels_like': self.weather['hourly'][index]['feels_like'],
-                        'uvindex': self.weather['hourly'][index]['uvi'],
-                        'humidity': self.weather['hourly'][index]['humidity'],
-                        'dew_point': self.weather['hourly'][index]['dew_point'],
-                        'pressure': self.weather['hourly'][index]['pressure'],
                         'main': self.weather['hourly'][index]['weather'][0]['main'],
+                        'pop' : self.weather['hourly'][0]['pop'],
                         'description': self.weather['hourly'][index]['weather'][0]['description'],
-                        'wind_speed': self.weather['hourly'][index]['wind_speed'],
-                        'clouds': self.weather['hourly'][index]['clouds'],
+                        'wind_speed' : wind_speed,
+                        'wind_deg' : wind_deg
                     }
                 }
             )
@@ -88,26 +96,12 @@ class Location:
                     "day" : Weekday[str(day)],
                     "data" : {
                         'temp': {
-                            'day': self.weather['daily'][index]['temp']['day'],
                             'min': self.weather['daily'][index]['temp']['min'],
                             'max': self.weather['daily'][index]['temp']['max'],
-                            'night': self.weather['daily'][index]['temp']['night'],
-                            'eve': self.weather['daily'][index]['temp']['eve'],
-                            'morn': self.weather['daily'][index]['temp']['morn'],
                         },
-                        'feels_like': {
-                            'day': self.weather['daily'][index]['feels_like']['day'],
-                            'night': self.weather['daily'][index]['temp']['night'],
-                            'eve': self.weather['daily'][index]['temp']['eve'],
-                            'morn': self.weather['daily'][index]['temp']['morn'],
-                        },
-                        'uvindex': self.weather['daily'][index]['uvi'],
-                        'humidity': self.weather['daily'][index]['humidity'],
-                        'dew_point': self.weather['daily'][index]['dew_point'],
                         'pressure': self.weather['daily'][index]['pressure'],
                         'main': self.weather['daily'][index]['weather'][0]['main'],
                         'description': self.weather['daily'][index]['weather'][0]['description'],
-                        'wind_speed': self.weather['daily'][index]['wind_speed'],
                     }
                 }
             )

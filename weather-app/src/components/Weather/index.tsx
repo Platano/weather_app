@@ -44,8 +44,7 @@ export function Weather() : React.ReactElement {
           setLocation(e.charAt(0).toUpperCase() + e.slice(1))
         }
       />
-
-      <div className="text-sm">
+      <div className="text-md mt-4">
         {weatherData && (
           <div>
             {(weatherData.city == "" && weatherData.state == "" && (
@@ -75,35 +74,41 @@ export function Weather() : React.ReactElement {
             <div>{weatherData.current.date}</div>
             <div className="p-3 flex justify-center">
               <div>
-                <span className="font-bold text-lg">
-                  {weatherData.current.time}
+                <div className="font-bold pt-4 text-3xl">
+                  {Math.ceil(weatherData.current.temp)} °F
+                </div>
+                <div>
+                  {weatherData.current.description
+                    .split(" ")
+                    .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
+                    .join(" ")}
+                </div>
+                <span className="text-xs">
+                  Updated as of {weatherData.current.time}
                 </span>
-                <div className="font-bold">Current Weather</div>
-                <ul className="grid grid-cols-6 text-md pt-5 pb-5">
-                  <li className="p-3">
-                    <span className="font-bold">Temperature:</span>{" "}
-                    {weatherData.current.temp} °F
-                  </li>
-                  <li className="p-3">
-                    <span className="font-bold">UV Index:</span>{" "}
+                <ul className="grid grid-cols-2 text-xs pt-3 pb-3">
+                  <li className="p-2">
+                    <span className="font-bold">UV:</span>{" "}
                     {weatherData.current.uvindex}
                   </li>
-                  <li className="p-3">
+                  <li className="p-2">
                     <span className="font-bold">Feels Like:</span>{" "}
-                    {weatherData.current.feels_like} °F
+                    {Math.ceil(weatherData.current.feels_like)} °F
                   </li>
-                  <li className="p-3">
+                  <li className="p-2">
                     <span className="font-bold">Humidity:</span>{" "}
                     {weatherData.current.humidity}%
                   </li>
-                  <li className="p-3">
-                    <span className="font-bold">Pressure:</span>{" "}
+                  <li className="p-2">
+                    <span className="font-bold">Barometer:</span>{" "}
                     {weatherData.current.pressure} hPa
                   </li>
-                  <li className="p-3 font-bold">
-                    {weatherData.current.description}
-                  </li>
                 </ul>
+                <div>
+                  Wind
+                  {weatherData.current.wind_deg}{" "}
+                  {weatherData.current.wind_speed} mph
+                </div>
               </div>
             </div>
             <div>
@@ -123,55 +128,31 @@ export function Weather() : React.ReactElement {
                           <span className="font-bold">Temp:</span>{" "}
                           {hourly.data.temp} °F
                         </span>
-                        <span>
-                          <span className="font-bold">Feels Like:</span>{" "}
-                          {hourly.data.feels_like} °F
-                        </span>
                       </div>
                       <div className="flex justify-center p-1">
                         <span className="mr-2">
-                          <span className="font-bold">Humidity:</span>{" "}
-                          {hourly.data.humidity}%
-                        </span>
-                        <span>
-                          <span className="font-bold">Dew Point:</span>{" "}
-                          {hourly.data.dew_point} °F
-                        </span>
-                      </div>
-                      <div className="flex justify-center p-1">
-                        <span className="mr-2">
-                          <span className="font-bold">Wind Speed:</span>{" "}
+                          <span className="font-bold">Wind: </span>{" "}
                           {hourly.data.wind_speed} mph
                         </span>
-                        <span>
-                          <span className="font-bold">Clouds:</span>{" "}
-                          {hourly.data.clouds}%
-                        </span>
                       </div>
                       <div className="flex justify-center p-1">
-                        <span>
-                          <span className="mr-2">
-                            <span className="font-bold">Main: </span>{" "}
-                            {hourly.data.main}
-                          </span>{" "}
-                        </span>
                         <span>
                           <span>
-                            <span className="font-bold">Description:</span>{" "}
-                            {hourly.data.description}
+                            {hourly.data.description
+                              .split(" ")
+                              .map(
+                                (s) =>
+                                  s.charAt(0).toUpperCase() + s.substring(1)
+                              )
+                              .join(" ")}
                           </span>{" "}
                         </span>
-                      </div>
-                      <div className="flex justify-center p-1">
-                        <span></span>
-                        <span></span>
                       </div>
                     </li>
                   );
                 })}
               </ul>
             </div>
-
             <div>
               <div className="font-bold mb-3">Daily Weather</div>
               <ul className="grid grid-cols-8">
@@ -179,65 +160,15 @@ export function Weather() : React.ReactElement {
                   return (
                     <li className="text-xs" key={key}>
                       <span className="font-bold">{daily.day}</span>
-                      <span>
-                        <div className="font-bold p-4">Temp</div>
-                        <ul className="grid grid-cols-2">
-                          <li key={key}>
-                            <span className="font-bold">Min:</span>{" "}
-                            {daily.data.temp.min} °F
-                          </li>
-                          <li key={key}>
-                            <span className="font-bold">Max:</span>{" "}
-                            {daily.data.temp.max} °F
-                          </li>
-                          <li key={key}>
-                            <span className="font-bold">Morn:</span>{" "}
-                            {daily.data.temp.morn} °F
-                          </li>
-                          <li key={key}>
-                            <span className="font-bold">Day:</span>{" "}
-                            {daily.data.temp.day} °F
-                          </li>
-                          <li key={key}>
-                            <span className="font-bold">Eve:</span>{" "}
-                            {daily.data.temp.eve} °F
-                          </li>
-                          <li key={key}>
-                            <span className="font-bold">Night:</span>{" "}
-                            {daily.data.temp.night} °F
-                          </li>
-                        </ul>
-                      </span>
-                      <div className="p-4">
-                        <div className="font-bold pb-4">Feels Like</div>
-                        <ul className="grid grid-cols-2">
-                          <li key={key}>
-                            <span className="font-bold">Morn: </span>
-                            {daily.data.feels_like.morn}
-                          </li>
-                          <li key={key}>
-                            <span className="font-bold">Day: </span>
-                            {daily.data.feels_like.day}
-                          </li>
-                          <li key={key}>
-                            <span className="font-bold">Eve: </span>
-                            {daily.data.feels_like.day}
-                          </li>
-                          <li key={key}>
-                            <span className="font-bold">Night: </span>
-                            {daily.data.feels_like.night}
-                          </li>
-                        </ul>
-                      </div>
-                      <div>
-                        <span className="mr-2">
-                          <span className="font-bold">Humidity: </span>{" "}
-                          {daily.data.humidity}%
-                        </span>
-                        <span>
-                          {" "}
-                          <span className="font-bold">Dew Point: </span>{" "}
-                          {daily.data.dew_point} °F
+                      <div className="grid grid-cols-1">
+                        <span className="pt-3">
+                          <span className="font-bold text-2xl">
+                            {" "}
+                            {Math.ceil(daily.data.temp.max)} °F{" "}
+                          </span>
+                          <span className="text-xs">
+                            {Math.ceil(daily.data.temp.min)} °F{" "}
+                          </span>
                         </span>
                       </div>
                     </li>

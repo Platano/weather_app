@@ -2,43 +2,24 @@ export const TIME_FORMAT = 12;
 
 export interface Day{
     description : string;
-    dew_point : number;
-    feels_like : FeelsLike;
     humidity : number;
     main : string;
     pressure: number;
     temp : Temp;
-    uvindex : number;
-    wind_speed : number;
-}
-
-export interface FeelsLike {
-    day : number;
-    eve : number;
-    morn : number;
-    night : number;
 }
 
 export interface Temp {
-    day : number;
-    eve : number;
     max : number;
     min : number;
-    morn : number;
-    night : number;
 }
 
 export interface Hour {
-  clouds: number;
-  description: string;
-  dew_point: number;
-  feels_like: number;
-  humidity: number;
-  main: string;
-  pressure: number;
   temp: string;
-  uvindex: number;
-  wind_speed: number;
+  main: string;
+  pop : number;
+  description: string;
+  wind_speed : string;
+  wind_deg : string;
 }
 
 export interface Current {
@@ -53,6 +34,7 @@ export interface Current {
     main : string;
     description : string;
     wind_speed : string;
+    wind_deg : string;
     clouds : number;
 }
 

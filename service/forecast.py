@@ -34,12 +34,11 @@ class Forecast:
         if (type(location) == str):
             loc = location.replace(" ", "%20")
 
-
         try:
             response = requests.get(
                 f"https://api.opencagedata.com/geocode/v1/json?q={loc}&key={API_KEY_OPEN_CAGE}")
         except URLError as e:
-            print("ERROR NOT A LOCATION")
+            print(e.reason)
 
         loc_info_response = response.json()
         
