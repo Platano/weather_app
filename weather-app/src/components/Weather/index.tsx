@@ -9,14 +9,35 @@ export function Weather() : React.ReactElement {
   const [location, setLocation] = useState<string>();
   const [weatherData, setWeatherData] = useState<WeatherData>();
   const [error, setError] = useState(null);
-  
-  
+  const compassSector = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW", "N"]
+  const rainDrop = require("./../../assets/img/rain-drop.svg");
+ 
+
+  const weatherIcon : {[icon : string]: JSX.Element} = {
+    "01d": <img src={require("./../../assets/img/01d.png").default} />,
+    "01n": <img src={require("./../../assets/img/01n.png").default} />,
+    "02d": <img src={require("./../../assets/img/02d.png").default} />,
+    "02n": <img src={require("./../../assets/img/02n.png").default} />,
+    "03d": <img src={require("./../../assets/img/03d.png").default} />,
+    "04d": <img src={require("./../../assets/img/04d.png").default} />,
+    "04n": <img src={require("./../../assets/img/04n.png").default} />,
+    "09n": <img src={require("./../../assets/img/09n.png").default} />,
+    "10d": <img src={require("./../../assets/img/10d.png").default} />,
+    "10n": <img src={require("./../../assets/img/10n.png").default} />,
+    "11d": <img src={require("./../../assets/img/11d.png").default} />,
+    "11n": <img src={require("./../../assets/img/11n.png").default} />,
+    "13d": <img src={require("./../../assets/img/13d.png").default} />,
+    "13n": <img src={require("./../../assets/img/13n.png").default} />,
+    "50d": <img src={require("./../../assets/img/50d.png").default} />,
+    "50n": <img src={require("./../../assets/img/50n.png").default} />,
+  };
+
+
   function weatherInfo<T>(loc : string): Promise<AxiosResponse<T>>{
     return axios.get<T>(`http://localhost:8000/weather/${loc}`, {
       headers: { "Access-Control-Allow-Origin": true },
     });
   }
-
 
   useEffect(() => {
     async function getWeatherData(loc: string) {
@@ -74,6 +95,9 @@ export function Weather() : React.ReactElement {
             <div>{weatherData.current.date}</div>
             <div className="p-3 flex justify-center">
               <div>
+                <div className="ml-20">
+                  {weatherIcon[`${weatherData.current.weather_icon}`]}
+                </div>
                 <div className="font-bold pt-4 text-3xl">
                   {Math.ceil(weatherData.current.temp)} °F
                 </div>
@@ -105,8 +129,19 @@ export function Weather() : React.ReactElement {
                   </li>
                 </ul>
                 <div>
-                  Wind
-                  {weatherData.current.wind_deg}{" "}
+                  {
+                    compassSector[
+                      parseInt(
+                        (
+                          Math.round(
+                            parseInt(weatherData.current.wind_deg) % 360
+                          ) /
+                            22.5 +
+                          1
+                        ).toPrecision(1)
+                      )
+                    ]
+                  }{" "}
                   {weatherData.current.wind_speed} mph
                 </div>
               </div>
@@ -117,21 +152,34 @@ export function Weather() : React.ReactElement {
                 {weatherData.hourly.map((hourly, key) => {
                   return (
                     <li className="text-xs" key={key}>
-                      <div className="font-bold mt-3">
+                      <div className="ml-28">
+                        {weatherIcon[`${hourly.data.weather_icon}`]}
+                      </div>
+                      <div className="font-bold justify-center mt-3">
                         {hourly.time > TIME_FORMAT
                           ? hourly.time - TIME_FORMAT
                           : hourly.time}
                         {hourly.time > TIME_FORMAT ? ":00 PM" : ":00 AM"}
                       </div>
                       <div className="flex justify-center p-1 ">
-                        <span className="mr-2">
-                          <span className="font-bold">Temp:</span>{" "}
-                          {hourly.data.temp} °F
-                        </span>
+                        <span className="mr-2">{hourly.data.temp} °F</span>
                       </div>
-                      <div className="flex justify-center p-1">
+                      <div className=" justify-center p-1">
+                        {
+                          compassSector[
+                            parseInt(
+                              (
+                                Math.round(
+                                  parseInt(hourly.data.wind_deg) % 360
+                                ) /
+                                  22.5 +
+                                1
+                              ).toPrecision(1)
+                            )
+                          ]
+                        }
                         <span className="mr-2">
-                          <span className="font-bold">Wind: </span>{" "}
+                          {" "}
                           {hourly.data.wind_speed} mph
                         </span>
                       </div>
@@ -146,6 +194,15 @@ export function Weather() : React.ReactElement {
                               )
                               .join(" ")}
                           </span>{" "}
+                          <span className="flex justify-center">
+                            <img
+                              src={rainDrop.default}
+                              className="mr-3"
+                              width="12"
+                              height="12"
+                            />
+                            <span className="pt-2">{hourly.data.pop}%</span> 
+                          </span>
                         </span>
                       </div>
                     </li>
@@ -166,7 +223,7 @@ export function Weather() : React.ReactElement {
                             {" "}
                             {Math.ceil(daily.data.temp.max)} °F{" "}
                           </span>
-                          <span className="text-xs">
+                          <span className="font-bold text-xs">
                             {Math.ceil(daily.data.temp.min)} °F{" "}
                           </span>
                         </span>

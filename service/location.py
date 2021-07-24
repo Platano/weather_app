@@ -41,6 +41,7 @@ class Location:
             'pressure': self.weather['current']['pressure'],
             'main': self.weather['current']['weather'][0]['main'],
             'description': self.weather['current']['weather'][0]['description'],
+            'weather_icon': self.weather['current']['weather'][0]['icon'],
             'wind_speed': self.weather['current']['wind_speed'],
             'wind_deg' : self.weather['current']['wind_deg'],
             'clouds': self.weather['current']['clouds'],
@@ -52,17 +53,19 @@ class Location:
         time = int(datetime.utcfromtimestamp(
             self.weather['hourly'][0]['dt'] + self.timezone_offset).strftime('%H'))
 
-        try:
-            wind_speed = self.weather['hourly'][index]['weather'][0]['wind_speed']
-        except KeyError:
-            wind_speed = 0
-
-        try:
-            wind_deg = self.weather['hourly'][index]['weather'][0]['wind_deg']
-        except KeyError:
-            wind_deg = ""
-
+        
         while (index < HOURS_IN_A_DAY):
+
+            try:
+                wind_speed = self.weather['hourly'][index]['wind_speed']                    
+            except KeyError:
+                wind_speed = 0
+
+            try:
+                wind_deg = self.weather['hourly'][index]['wind_deg']
+            except KeyError:
+                wind_deg = ""
+
             hourly.append(
                 {
                     "time" : time,
@@ -71,6 +74,7 @@ class Location:
                         'main': self.weather['hourly'][index]['weather'][0]['main'],
                         'pop' : self.weather['hourly'][0]['pop'],
                         'description': self.weather['hourly'][index]['weather'][0]['description'],
+                        'weather_icon': self.weather['hourly'][index]['weather'][0]['icon'],
                         'wind_speed' : wind_speed,
                         'wind_deg' : wind_deg
                     }
@@ -102,6 +106,7 @@ class Location:
                         'pressure': self.weather['daily'][index]['pressure'],
                         'main': self.weather['daily'][index]['weather'][0]['main'],
                         'description': self.weather['daily'][index]['weather'][0]['description'],
+                        'weather_icon': self.weather['daily'][index]['weather'][0]['icon'],
                     }
                 }
             )

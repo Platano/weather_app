@@ -1,11 +1,13 @@
 export const TIME_FORMAT = 12;
 
+
 export interface Day{
     description : string;
     humidity : number;
     main : string;
     pressure: number;
     temp : Temp;
+    weather_icon : string;
 }
 
 export interface Temp {
@@ -20,6 +22,7 @@ export interface Hour {
   description: string;
   wind_speed : string;
   wind_deg : string;
+  weather_icon : string;
 }
 
 export interface Current {
@@ -33,6 +36,7 @@ export interface Current {
     pressure : number;
     main : string;
     description : string;
+    weather_icon : string;
     wind_speed : string;
     wind_deg : string;
     clouds : number;
