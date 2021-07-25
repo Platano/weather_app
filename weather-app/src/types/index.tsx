@@ -1,5 +1,6 @@
 export const TIME_FORMAT = 12;
-
+export const MAX_DEGREE = 360
+export const COMPASS_SECTORS = 22.5
 
 export interface Day{
     description : string;
