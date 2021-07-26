@@ -44,7 +44,6 @@ class Location:
             'weather_icon': self.weather['current']['weather'][0]['icon'],
             'wind_speed': self.weather['current']['wind_speed'],
             'wind_deg' : self.weather['current']['wind_deg'],
-            'clouds': self.weather['current']['clouds'],
         }
 
     def _get_hourly_weather(self):
@@ -72,7 +71,7 @@ class Location:
                     "data" : {
                         'temp': self.weather['hourly'][index]['temp'],
                         'main': self.weather['hourly'][index]['weather'][0]['main'],
-                        'pop' : self.weather['hourly'][0]['pop'],
+                        'pop' : self.weather['hourly'][index]['pop'],
                         'description': self.weather['hourly'][index]['weather'][0]['description'],
                         'weather_icon': self.weather['hourly'][index]['weather'][0]['icon'],
                         'wind_speed' : wind_speed,
@@ -98,6 +97,7 @@ class Location:
             daily.append(
                 {
                     "day" : Weekday[str(day)],
+                    "date" : datetime.utcfromtimestamp(self.weather['daily'][index]['dt']).strftime('%D'),
                     "data" : {
                         'temp': {
                             'min': self.weather['daily'][index]['temp']['min'],

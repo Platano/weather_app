@@ -6,15 +6,15 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   theme: {
     screens: {
-      xs: { max: '575px' }, // Mobile (iPhone 3 - iPhone XS Max).
-      sm: { min: '576px', max: '897px' }, // Mobile (matches max: iPhone 11 Pro Max landscape @ 896px).
-      md: { min: '898px', max: '1199px' }, // Tablet (matches max: iPad Pro @ 1112px).
-      lg: { min: '1200px'}, // Desktop smallest.
-      xl: { min: '1159px' }, // Desktop wide.
-      xxl: { min: '1359px' }, // Desktop widescreen.
-      ipadpro: {width: '1366px', height: '1024px'},
-      fhd: { width: '1920px', height: '1080px'}, //FHD 1920x1080
-      uhd: { width: '3480px', height: '2160px'}, //UHD 3840x2160
+      xs: { max: "575px" }, // Mobile (iPhone 3 - iPhone XS Max).
+      sm: { min: "576px", max: "897px" }, // Mobile (matches max: iPhone 11 Pro Max landscape @ 896px).
+      md: { min: "898px", max: "1199px" }, // Tablet (matches max: iPad Pro @ 1112px).
+      lg: { min: "1200px" }, // Desktop smallest.
+      xl: { min: "1159px" }, // Desktop wide.
+      xxl: { min: "1359px" }, // Desktop widescreen.
+      ipadpro: { width: "1366px", height: "1024px" },
+      fhd: { width: "1920px", height: "1080px" }, //FHD 1920x1080
+      uhd: { width: "3480px", height: "2160px" }, //UHD 3840x2160
     },
     colors: {
       transparent: "transparent",
@@ -177,12 +177,9 @@ module.exports = {
       sm: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
       DEFAULT:
         "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)",
-      md:
-        "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
-      lg:
-        "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
-      xl:
-        "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+      md: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+      lg: "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
+      xl: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
       "2xl": "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
       inner: "inset 0 2px 4px 0 rgba(0, 0, 0, 0.06)",
       none: "none",
@@ -656,23 +653,23 @@ module.exports = {
       8: "8px",
     },
     rotate: {
-      "-180": "-180deg",
-      "-90": "-90deg",
-      "-45": "-45deg",
-      "-12": "-12deg",
-      "-6": "-6deg",
-      "-3": "-3deg",
-      "-2": "-2deg",
-      "-1": "-1deg",
       0: "0deg",
-      1: "1deg",
-      2: "2deg",
-      3: "3deg",
-      6: "6deg",
-      12: "12deg",
-      45: "45deg",
-      90: "90deg",
+      30: "-30deg",
+      45: "-45deg",
+      60: "-60deg",
+      90: "-90deg",
+      120: "-120deg",
+      135: "-135deg",
+      150: "-150deg",
       180: "180deg",
+      210: "150deg",
+      225: "135deg",
+      240: "120deg",
+      270: "90deg",
+      300: "60deg",
+      315: "45deg",
+      330: "30deg",
+
     },
     saturate: {
       0: "0",

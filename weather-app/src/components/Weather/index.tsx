@@ -1,55 +1,38 @@
 import axios, { AxiosResponse } from "axios";
 import * as React from 'react';
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import SearchField from "react-search-field";
-import { TIME_FORMAT, WeatherData } from '../../types';
 import "./../../assets/css/tailwind.css";
 import {
+  compassSector,
   descriptionToUpper,
+  getDailyDate,
   getLocationHeading,
   getTime,
   getWindDirection,
+  weatherIcon,
+  windArrowRotation,
 } from "../../utils";
-
+import { WeatherData } from "../../types";
 
 export function Weather() : React.ReactElement {
   const [location, setLocation] = useState<string>();
   const [weatherData, setWeatherData] = useState<WeatherData>();
   const [error, setError] = useState(null);
-  const compassSector = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW", "N"]
   const rainDrop = require("./../../assets/img/rain-drop.svg");
- 
-  const weatherIcon : {[icon : string]: JSX.Element} = {
-    "01d": <img src={require("./../../assets/img/01d.png").default} />,
-    "01n": <img src={require("./../../assets/img/01n.png").default} />,
-    "02d": <img src={require("./../../assets/img/02d.png").default} />,
-    "02n": <img src={require("./../../assets/img/02n.png").default} />,
-    "03d": <img src={require("./../../assets/img/03d.png").default} />,
-    "03n": <img src={require("./../../assets/img/03n.png").default} />,
-    "04d": <img src={require("./../../assets/img/04d.png").default} />,
-    "04n": <img src={require("./../../assets/img/04n.png").default} />,
-    "09d": <img src={require("./../../assets/img/09d.png").default} />,
-    "09n": <img src={require("./../../assets/img/09n.png").default} />,
-    "10d": <img src={require("./../../assets/img/10d.png").default} />,
-    "10n": <img src={require("./../../assets/img/10n.png").default} />,
-    "11d": <img src={require("./../../assets/img/11d.png").default} />,
-    "11n": <img src={require("./../../assets/img/11n.png").default} />,
-    "13d": <img src={require("./../../assets/img/13d.png").default} />,
-    "13n": <img src={require("./../../assets/img/13n.png").default} />,
-    "50d": <img src={require("./../../assets/img/50d.png").default} />,
-    "50n": <img src={require("./../../assets/img/50n.png").default} />,
-  };
+  const windDirection = require("./../../assets/img/right-arrow.svg");
+  const initialRender = useRef(true);
 
-  function weatherInfo<T>(loc : string): Promise<AxiosResponse<T>>{
+  function weatherInfo<T>(loc: string): Promise<AxiosResponse<T>> {
     return axios.get<T>(`http://localhost:8000/weather/${loc}`, {
       headers: { "Access-Control-Allow-Origin": true },
     });
   }
-
+   
+ 
   useEffect(() => {
     async function getWeatherData(loc: string) {
       try {
-        
         const response = await weatherInfo<WeatherData>(loc);
         setWeatherData(response.data);
       } catch (err) {
@@ -57,14 +40,18 @@ export function Weather() : React.ReactElement {
         console.log(`Error: ${error.message}`);
       }
     }
-    getWeatherData(location);  
-  }, [location])
 
+    if (initialRender.current) {
+      initialRender.current = false;
+    } else {
+      getWeatherData(location);
+    }
+  }, [location]);
 
   return (
     <div className="text-center">
       <SearchField
-        placeholder="Enter location..."
+        placeholder="Enter City..."
         onSearchClick={(e: string) =>
           setLocation(e.charAt(0).toUpperCase() + e.slice(1))
         }
@@ -111,40 +98,59 @@ export function Weather() : React.ReactElement {
                     {weatherData.current.pressure} hPa
                   </li>
                 </ul>
-                <div>
-                  {
-                    compassSector[
-                      getWindDirection(weatherData.current.wind_deg)
-                    ]
-                  }{" "}
-                  {Math.ceil(parseInt(weatherData.current.wind_speed))} mph
+                <div className="flex justify-center">
+                  <img
+                    src={windDirection.default}
+                    className={`transform rotate-${
+                      windArrowRotation[
+                        `${
+                          compassSector[
+                            getWindDirection(weatherData.current.wind_deg)
+                          ]
+                        }`
+                      ]
+                    }`}
+                    height="30"
+                    width="30"
+                  />               
+                  <span className="ml-3">{Math.round(weatherData.current.wind_speed)} mph</span>
                 </div>
               </div>
             </div>
             <div>
-              <div className="font-bold mb-3">Hourly Weather</div>
               <ul className="grid grid-cols-8">
                 {weatherData.hourly.map((hourly, key) => {
                   return (
                     <li className="text-xs" key={key}>
-                      <div className="ml-20">
+                      <div className="flex justify-center">
                         {weatherIcon[`${hourly.data.weather_icon}`]}
                       </div>
                       <div className="font-bold justify-center mt-3">
                         {getTime(hourly.time)}
-                        {getTime(hourly.time) > TIME_FORMAT
-                          ? ":00 PM"
-                          : ":00 AM"}
                       </div>
                       <div className="flex justify-center p-1 ">
-                        <span className="mr-2">{hourly.data.temp} °F</span>
-                      </div>
-                      <div className=" justify-center p-1">
-                        {compassSector[getWindDirection(hourly.data.wind_deg)]}
                         <span className="mr-2">
-                          {" "}
-                          {Math.ceil(parseInt(hourly.data.wind_speed))} mph
+                          {Math.round(hourly.data.temp)} °F
                         </span>
+                      </div>
+                      <div className="flex justify-center p-1">
+                        {
+                          <img
+                            src={windDirection.default}
+                            className={`transform rotate-${
+                              windArrowRotation[
+                                `${
+                                  compassSector[
+                                    getWindDirection(hourly.data.wind_deg)
+                                  ]
+                                }`
+                              ]
+                            }`}
+                            height="10"
+                            width="10"
+                          />
+                        }
+                        <span className="ml-3">{Math.round(hourly.data.wind_speed)} mph</span>
                       </div>
                       <div className="flex justify-center p-1">
                         <span>
@@ -159,7 +165,7 @@ export function Weather() : React.ReactElement {
                               height="12"
                             />
                             <span className="pt-2">
-                              {Math.ceil(hourly.data.pop)}%
+                              {Math.round(hourly.data.pop * 100)}%
                             </span>
                           </span>
                         </span>
@@ -170,23 +176,25 @@ export function Weather() : React.ReactElement {
               </ul>
             </div>
             <div>
-              <div className="font-bold mb-3">Daily Weather</div>
-              <ul className="grid grid-cols-8">
+              <ul className="grid grid-cols-8 mt-10">
                 {weatherData.daily.map((daily, key) => {
                   return (
                     <li className="text-xs" key={key}>
-                      <span className="font-bold">{daily.day}</span>
+                      <span className="font-bold">
+                        {daily.day.substring(0,3)} {getDailyDate(daily.date)}
+                      </span>
                       <div className="grid grid-cols-1">
                         <span className="pt-3">
                           <span className="font-bold text-2xl">
                             {" "}
-                            {Math.ceil(daily.data.temp.max)} °F{" "}
+                            {Math.round(daily.data.temp.max)} °F{" "}
                           </span>
                           <span className="font-bold text-xs">
-                            {Math.ceil(daily.data.temp.min)} °F{" "}
+                            {Math.round(daily.data.temp.min)} °F{" "}
                           </span>
                         </span>
                       </div>
+                      <div className="pt-3">{descriptionToUpper(daily.data.description)}</div>
                     </li>
                   );
                 })}
