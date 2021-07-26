@@ -1,8 +1,5 @@
 export interface Day {
   description: string;
-  humidity: number;
-  main: string;
-  pressure: number;
   temp: Temp;
   weather_icon: string;
 }
@@ -14,7 +11,6 @@ export interface Temp {
 
 export interface Hour {
   temp: number;
-  main: string;
   pop: number;
   description: string;
   wind_speed: number;
@@ -29,7 +25,6 @@ export interface Current {
   feels_like: number;
   uvindex: number;
   humidity: number;
-  dew_point: number;
   pressure: number;
   description: string;
   weather_icon: string;

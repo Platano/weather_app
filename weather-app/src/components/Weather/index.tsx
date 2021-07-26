@@ -36,7 +36,7 @@ export function Weather() : React.ReactElement {
         setWeatherData(response.data);
       } catch (err) {
         setError(err);
-        console.log(`Error: ${error.message}`);
+        return<div>Error: {error.message}</div>;
       }
     }
 
@@ -52,8 +52,6 @@ export function Weather() : React.ReactElement {
       <div>
         <SearchField
           placeholder="Enter City..."
-          height="60%"
-          width="60%"
           onSearchClick={(e: string) =>
             setLocation(e.charAt(0).toUpperCase() + e.slice(1))
           }
@@ -71,7 +69,7 @@ export function Weather() : React.ReactElement {
               weatherData.country,
             ])}
             <div>{weatherData.current.date}</div>
-            <div className="uhd:text-2xl p-3 flex justify-evenly">
+            <div className="uhd:text-2xl uhd:p-3 flex justify-evenly">
               <div>
                 <div className="flex justify-center">
                   <img
@@ -90,7 +88,7 @@ export function Weather() : React.ReactElement {
                 <span className="text-xs uhd:text-3xl">
                   Updated as of {weatherData.current.time}
                 </span>
-                <ul className="grid grid-cols-2 fhd:text-xs uhd:text-3xl pt-3 pb-3">
+                <ul className="grid grid-cols-2 fhd:text-xs uhd:text-3xl uhd:pt-3">
                   <li className="p-2">
                     <span className="font-bold">UV:</span>{" "}
                     {weatherData.current.uvindex}
@@ -137,7 +135,7 @@ export function Weather() : React.ReactElement {
                       height="30%"
                       width="30%"
                     />
-                    <div className="mr-56">{weatherData.current.sunrise.substring(1)}</div>
+                    <div className="ml-4 mr-56">{weatherData.current.sunrise.substring(1)}</div>
                   </div>
                   <div className="flex grid grid-cols-1">
                     <img
@@ -145,13 +143,13 @@ export function Weather() : React.ReactElement {
                       height="30%"
                       width="30%"
                     />
-                    <div className="mr-56">{weatherData.current.sunset.substring(1)}</div>
+                    <div className="ml-4 mr-56">{weatherData.current.sunset.substring(1)}</div>
                   </div>
                 </div>
                 <div></div>
               </div>
             </div>
-            <div className="justify-around">
+            <div>
               <ul className="grid grid-cols-8">
                 {weatherData.hourly.map((hourly, key) => {
                   return (

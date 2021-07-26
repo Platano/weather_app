@@ -27,8 +27,6 @@ class Location:
         self.timezone_offset = timezone_offset
         self.weather = weather
 
-    #TODO: Add more data to display in front end
-
     def _get_current_weather(self):
         return {
             'date': datetime.utcfromtimestamp(self.weather['current']['dt']).strftime('%D'),
@@ -39,7 +37,6 @@ class Location:
             'feels_like': self.weather['current']['feels_like'],
             'uvindex': self.weather['current']['uvi'],
             'humidity': self.weather['current']['humidity'],
-            'dew_point': self.weather['current']['dew_point'],
             'pressure': self.weather['current']['pressure'],
             'description': self.weather['current']['weather'][0]['description'],
             'weather_icon': self.weather['current']['weather'][0]['icon'],
@@ -52,7 +49,7 @@ class Location:
         hourly = []
         time = int(datetime.utcfromtimestamp(
             self.weather['hourly'][0]['dt'] + self.timezone_offset).strftime('%H'))
-        
+
         
         while (index < HOURS_IN_A_DAY):
 
@@ -68,10 +65,9 @@ class Location:
 
             hourly.append(
                 {
-                    "time" : time,
-                    "data" : {
+                    'time' : time,
+                    'data' : {
                         'temp': self.weather['hourly'][index]['temp'],
-                        'main': self.weather['hourly'][index]['weather'][0]['main'],
                         'pop' : self.weather['hourly'][index]['pop'],
                         'description': self.weather['hourly'][index]['weather'][0]['description'],
                         'weather_icon': self.weather['hourly'][index]['weather'][0]['icon'],
@@ -97,15 +93,13 @@ class Location:
         while (index <= DAYS_IN_A_WEEK):
             daily.append(
                 {
-                    "day" : Weekday[str(day)],
-                    "date" : datetime.utcfromtimestamp(self.weather['daily'][index]['dt']).strftime('%D'),
-                    "data" : {
+                    'day' : Weekday[str(day)],
+                    'date' : datetime.utcfromtimestamp(self.weather['daily'][index]['dt']).strftime('%D'),
+                    'data' : {
                         'temp': {
                             'min': self.weather['daily'][index]['temp']['min'],
                             'max': self.weather['daily'][index]['temp']['max'],
                         },
-                        'pressure': self.weather['daily'][index]['pressure'],
-                        'main': self.weather['daily'][index]['weather'][0]['main'],
                         'description': self.weather['daily'][index]['weather'][0]['description'],
                         'weather_icon': self.weather['daily'][index]['weather'][0]['icon'],
                     }
