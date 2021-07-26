@@ -13,8 +13,10 @@ module.exports = {
       xl: { min: "1159px" }, // Desktop wide.
       xxl: { min: "1359px" }, // Desktop widescreen.
       ipadpro: { width: "1366px", height: "1024px" },
+      hd: { width: "1280px", height: "720px" },
       fhd: { width: "1920px", height: "1080px" }, //FHD 1920x1080
-      uhd: { width: "3480px", height: "2160px" }, //UHD 3840x2160
+      qhd: { width: "2560px", height: "1440px" },
+      uhd: { width: "3840px", height: "2160px" }, //UHD 3840x2160
     },
     colors: {
       transparent: "transparent",
@@ -293,6 +295,7 @@ module.exports = {
       ],
     },
     fontSize: {
+      xxs: ["0.5rem", { lineHeight:"0.75rem"}],
       xs: ["0.75rem", { lineHeight: "1rem" }],
       sm: ["0.875rem", { lineHeight: "1.25rem" }],
       base: ["1rem", { lineHeight: "1.5rem" }],
@@ -669,7 +672,6 @@ module.exports = {
       300: "60deg",
       315: "45deg",
       330: "30deg",
-
     },
     saturate: {
       0: "0",

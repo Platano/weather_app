@@ -43,27 +43,6 @@ export const windArrowRotation : any = {
     'ESE' : 330,
 }
 
-export const weatherIcon: { [icon: string]: JSX.Element } = {
-  "01d": <img src={require("./../assets/img/01d.png").default} />,
-  "01n": <img src={require("./../assets/img/01n.png").default} />,
-  "02d": <img src={require("./../assets/img/02d.png").default} />,
-  "02n": <img src={require("./../assets/img/02n.png").default} />,
-  "03d": <img src={require("./../assets/img/03d.png").default} />,
-  "03n": <img src={require("./../assets/img/03n.png").default} />,
-  "04d": <img src={require("./../assets/img/04d.png").default} />,
-  "04n": <img src={require("./../assets/img/04n.png").default} />,
-  "09d": <img src={require("./../assets/img/09d.png").default} />,
-  "09n": <img src={require("./../assets/img/09n.png").default} />,
-  "10d": <img src={require("./../assets/img/10d.png").default} />,
-  "10n": <img src={require("./../assets/img/10n.png").default} />,
-  "11d": <img src={require("./../assets/img/11d.png").default} />,
-  "11n": <img src={require("./../assets/img/11n.png").default} />,
-  "13d": <img src={require("./../assets/img/13d.png").default} />,
-  "13n": <img src={require("./../assets/img/13n.png").default} />,
-  "50d": <img src={require("./../assets/img/50d.png").default} />,
-  "50n": <img src={require("./../assets/img/50n.png").default} />,
-};
-
 export function descriptionToUpper(description: string) {
   return description
     .split(" ")
@@ -85,17 +64,17 @@ export function getLocationHeading(location: string[]) {
       </div>
     )) ||
     (location[0] == "" && (
-      <div>
+      <div className="mt-2">
         {location[1]}, {location[2]}
       </div>
     )) ||
     (location[1] == "" && (
-      <div>
+      <div className="mt-2">
         {location[0]}, {location[2]}
       </div>
     )) ||
     (location[0] && location[1] && location[2] && (
-      <div>
+      <div className="mt-2">
         {location[0]}, {location[1]}, {location[2]}
       </div>
     ))

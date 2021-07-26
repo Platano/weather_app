@@ -32,14 +32,15 @@ class Location:
     def _get_current_weather(self):
         return {
             'date': datetime.utcfromtimestamp(self.weather['current']['dt']).strftime('%D'),
-            'time': datetime.utcfromtimestamp(self.weather['current']['dt'] + self.timezone_offset).strftime('%T'),
+            'time': datetime.utcfromtimestamp(self.weather['current']['dt'] + self.timezone_offset).strftime('%I:%M %p'),
+            'sunrise' : datetime.utcfromtimestamp(self.weather['current']['sunrise'] + self.timezone_offset).strftime('%I:%M %p'),
+            'sunset' : datetime.utcfromtimestamp(self.weather['current']['sunset'] + self.timezone_offset).strftime('%I:%M %p'),
             'temp': self.weather['current']['temp'],
             'feels_like': self.weather['current']['feels_like'],
             'uvindex': self.weather['current']['uvi'],
             'humidity': self.weather['current']['humidity'],
             'dew_point': self.weather['current']['dew_point'],
             'pressure': self.weather['current']['pressure'],
-            'main': self.weather['current']['weather'][0]['main'],
             'description': self.weather['current']['weather'][0]['description'],
             'weather_icon': self.weather['current']['weather'][0]['icon'],
             'wind_speed': self.weather['current']['wind_speed'],
@@ -51,7 +52,7 @@ class Location:
         hourly = []
         time = int(datetime.utcfromtimestamp(
             self.weather['hourly'][0]['dt'] + self.timezone_offset).strftime('%H'))
-
+        
         
         while (index < HOURS_IN_A_DAY):
 

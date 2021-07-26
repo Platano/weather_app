@@ -31,11 +31,12 @@ export interface Current {
   humidity: number;
   dew_point: number;
   pressure: number;
-  main: string;
   description: string;
   weather_icon: string;
   wind_speed: number;
   wind_deg: number;
+  sunrise: string;
+  sunset: string;
 }
 
 export interface Hourly {
