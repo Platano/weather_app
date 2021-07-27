@@ -4,6 +4,15 @@ export const TIME_FORMAT = 12;
 export const MAX_DEGREE = 360;
 export const COMPASS_SECTORS = 22.5;
 export const NOON = 12;
+export const settings = {
+  slidesToShow: 8,
+  slidesToScroll: 1,
+  focusOnSelect: true,
+  centerMode: true,
+  arrows: true,
+};
+
+
 export const compassSector = [
   "N",
   "NNE",
@@ -92,4 +101,5 @@ export function getDailyDate(date: string) {
   const dailyDate = date.split("/");
   return `${dailyDate[0]}/${dailyDate[1]}`;
 }
+
 

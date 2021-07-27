@@ -11,8 +11,12 @@ import {
   getTime,
   getWindDirection,
   windArrowRotation,
+  settings,
 } from "../../utils";
 import { WeatherData } from "../../types";
+import "/node_modules/slick-carousel/slick/slick.css";
+import "/node_modules/slick-carousel/slick/slick-theme.css";
+import Slider from "react-slick";
 
 export function Weather() : React.ReactElement {
   const [location, setLocation] = useState<string>();
@@ -28,7 +32,7 @@ export function Weather() : React.ReactElement {
     });
   }
    
- 
+  
   useEffect(() => {
     async function getWeatherData(loc: string) {
       try {
@@ -52,6 +56,7 @@ export function Weather() : React.ReactElement {
       <div>
         <SearchField
           placeholder="Enter City..."
+          classNames="w-3/12"
           onSearchClick={(e: string) =>
             setLocation(e.charAt(0).toUpperCase() + e.slice(1))
           }
@@ -62,7 +67,7 @@ export function Weather() : React.ReactElement {
       </div>
       <div className="mt-4">
         {weatherData && (
-          <div className="uhd:text-3xl">
+          <div className="qhd:text-2xl uhd:text-3xl">
             {getLocationHeading([
               weatherData.city,
               weatherData.state,
@@ -135,7 +140,9 @@ export function Weather() : React.ReactElement {
                       height="30%"
                       width="30%"
                     />
-                    <div className="ml-4 mr-56">{weatherData.current.sunrise.substring(1)}</div>
+                    <div className="ml-4 mr-56">
+                      {weatherData.current.sunrise.substring(1)}
+                    </div>
                   </div>
                   <div className="flex grid grid-cols-1">
                     <img
@@ -143,88 +150,92 @@ export function Weather() : React.ReactElement {
                       height="30%"
                       width="30%"
                     />
-                    <div className="ml-4 mr-56">{weatherData.current.sunset.substring(1)}</div>
+                    <div className="ml-4 mr-56">
+                      {weatherData.current.sunset.substring(1)}
+                    </div>
                   </div>
                 </div>
                 <div></div>
               </div>
             </div>
             <div>
-              <ul className="grid grid-cols-8">
-                {weatherData.hourly.map((hourly, key) => {
-                  return (
-                    <li
-                      className="fhd:text-xs qhd:text-md uhd:text-3xl"
-                      key={key}
-                    >
-                      <div className="flex justify-center">
-                        <img
-                          src={
-                            require(`./../../assets/img/${hourly.data.weather_icon}.png`)
-                              .default
-                          }
-                          height="25%"
-                          width="25%"
-                        />
-                      </div>
-                      <div className="font-bold justify-center uhd:mt-3">
-                        {getTime(hourly.time)}
-                      </div>
-                      <div className="flex justify-center p-1 ">
-                        <span className="mr-2">
-                          {Math.round(hourly.data.temp)} °F
-                        </span>
-                      </div>
-                      <div className="flex justify-center p-1">
-                        {
+              <ul className="mt-32">
+                <Slider {...settings}>
+                  {weatherData.hourly.map((hourly, key) => {
+                    return (
+                      <li
+                        className="fhd:text-xs qhd:text-md uhd:text-3xl"
+                        key={key}
+                      >
+                        <div className="flex justify-center">
                           <img
-                            src={windDirection.default}
-                            className={`transform rotate-${
-                              windArrowRotation[
-                                `${
-                                  compassSector[
-                                    getWindDirection(hourly.data.wind_deg)
-                                  ]
-                                }`
-                              ]
-                            }`}
-                            height="5%"
-                            width="5%"
+                            src={
+                              require(`./../../assets/img/${hourly.data.weather_icon}.png`)
+                                .default
+                            }
+                            height="25%"
+                            width="25%"
                           />
-                        }
-                        <span className="ml-3">
-                          {Math.round(hourly.data.wind_speed)} mph
-                        </span>
-                      </div>
-                      <div className="flex justify-center p-1">
-                        <span>
-                          <span>
-                            {descriptionToUpper(hourly.data.description)}
-                          </span>{" "}
-                          <span className="flex mt-2 justify-center">
+                        </div>
+                        <div className="font-bold justify-center uhd:mt-3">
+                          {getTime(hourly.time)}
+                        </div>
+                        <div className="flex justify-center p-1 ">
+                          <span className="mr-2">
+                            {Math.round(hourly.data.temp)} °F
+                          </span>
+                        </div>
+                        <div className="flex justify-center p-1">
+                          {
                             <img
-                              src={rainDrop.default}
-                              className="mr-3"
-                              width="5%"
+                              src={windDirection.default}
+                              className={`transform rotate-${
+                                windArrowRotation[
+                                  `${
+                                    compassSector[
+                                      getWindDirection(hourly.data.wind_deg)
+                                    ]
+                                  }`
+                                ]
+                              }`}
                               height="5%"
+                              width="5%"
                             />
-                            <span className="pt-2">
-                              {Math.round(hourly.data.pop * 100)}%
+                          }
+                          <span className="ml-3">
+                            {Math.round(hourly.data.wind_speed)} mph
+                          </span>
+                        </div>
+                        <div className="flex justify-center p-1">
+                          <span>
+                            <span>
+                              {descriptionToUpper(hourly.data.description)}
+                            </span>{" "}
+                            <span className="flex mt-2 justify-center">
+                              <img
+                                src={rainDrop.default}
+                                className="mr-3"
+                                width="5%"
+                                height="5%"
+                              />
+                              <span className="pt-2">
+                                {Math.round(hourly.data.pop * 100)}%
+                              </span>
                             </span>
                           </span>
-                        </span>
-                      </div>
-                    </li>
-                  );
-                })}
+                        </div>
+                      </li>
+                    );
+                  })}
+                </Slider>
               </ul>
             </div>
-            <div className="uhd:mt-8">
+            <div className="fhd:mt-32 qhd:mt-40 uhd:mt-52">
               <ul className="grid grid-cols-8 qhd:mt-5 uhd:mt-32">
                 {weatherData.daily.map((daily, key) => {
                   return (
                     <li
-                      className="fhd:text-xs qhd:text-sm uhd:text-3xl"
+                      className="fhd:text-xs qhd:text-2xl uhd:text-3xl"
                       key={key}
                     >
                       <span className="font-bold">
