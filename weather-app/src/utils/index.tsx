@@ -12,7 +12,6 @@ export const settings = {
   arrows: true,
 };
 
-
 export const compassSector = [
   "N",
   "NNE",

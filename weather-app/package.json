@@ -38,10 +38,10 @@
   },
   "scripts": {
     "start": "yarn run start-dev",
-    "start-dev": "webpack serve --config=development.js",
+    "start-dev": "webpack serve --config=configs/webpack/development.js",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
-    "build": "webpack --config=production.js",
+    "build": "webpack --config=configs/webpack/production.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

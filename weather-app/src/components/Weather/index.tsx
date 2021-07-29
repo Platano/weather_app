@@ -14,8 +14,8 @@ import {
   settings,
 } from "../../utils";
 import { WeatherData } from "../../types";
-import "/node_modules/slick-carousel/slick/slick.css";
-import "/node_modules/slick-carousel/slick/slick-theme.css";
+import "../../../node_modules/slick-carousel/slick/slick.css";
+import "../../../node_modules/slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 
 export function Weather() : React.ReactElement {
@@ -56,7 +56,7 @@ export function Weather() : React.ReactElement {
       <div>
         <SearchField
           placeholder="Enter City..."
-          classNames="w-3/12"
+          classNames="fhd:w-3/12 qhd:w-3/12 uhd:w-3/12"
           onSearchClick={(e: string) =>
             setLocation(e.charAt(0).toUpperCase() + e.slice(1))
           }
@@ -74,12 +74,12 @@ export function Weather() : React.ReactElement {
               weatherData.country,
             ])}
             <div>{weatherData.current.date}</div>
-            <div className="uhd:text-2xl uhd:p-3 flex justify-evenly">
+            <div className="uhd:text-2xl uhd:p-3 fhd:flex qhd:flex uhd:flex justify-evenly">
               <div>
                 <div className="flex justify-center">
                   <img
                     src={
-                      require(`./../../assets/img/${weatherData.current.weather_icon}.png`)
+                      require(`./../../assets/img/${weatherData.current.weather_icon}.svg`)
                         .default
                     }
                     height="30%"
@@ -131,16 +131,16 @@ export function Weather() : React.ReactElement {
                   </span>
                 </div>
               </div>
-              <div className="flex grid grid-cols-1">
-                <div className="mt-8"></div>
+              <div className="flex grid grid-cols-1 mt-20 mr-10">
                 <div className="flex grid grid-cols-1">
                   <div className="flex grid grid-cols-1">
                     <img
                       src={require(`./../../assets/img/sunrise-1.gif`).default}
                       height="30%"
                       width="30%"
+                      className="xs:ml-36"
                     />
-                    <div className="ml-4 mr-56">
+                    <div className="ml-4 fhd:mr-56 qhd:mr-56 uhd:mr-56">
                       {weatherData.current.sunrise.substring(1)}
                     </div>
                   </div>
@@ -149,17 +149,17 @@ export function Weather() : React.ReactElement {
                       src={require(`./../../assets/img/sunset-1.gif`).default}
                       height="30%"
                       width="30%"
+                      className="xs:ml-36"
                     />
-                    <div className="ml-4 mr-56">
+                    <div className="ml-4 fhd:mr-56 qhd:mr-56 uhd:mr-56">
                       {weatherData.current.sunset.substring(1)}
                     </div>
                   </div>
                 </div>
-                <div></div>
               </div>
             </div>
             <div>
-              <ul className="mt-32">
+              <ul className="xs:hidden mt-32">
                 <Slider {...settings}>
                   {weatherData.hourly.map((hourly, key) => {
                     return (
@@ -170,7 +170,7 @@ export function Weather() : React.ReactElement {
                         <div className="flex justify-center">
                           <img
                             src={
-                              require(`./../../assets/img/${hourly.data.weather_icon}.png`)
+                              require(`./../../assets/img/${hourly.data.weather_icon}.svg`)
                                 .default
                             }
                             height="25%"
@@ -229,6 +229,74 @@ export function Weather() : React.ReactElement {
                   })}
                 </Slider>
               </ul>
+              <ul className=" fhd:hidden qhd:hidden uhd:hidden flex grid grid-cols-4">
+                {weatherData.hourly.map((hourly, key) => {
+                  return (
+                    <li
+                      className="text-xs qhd:text-md uhd:text-3xl"
+                      key={key}
+                    >
+                      <div className="flex justify-center">
+                        <img
+                          src={
+                            require(`./../../assets/img/${hourly.data.weather_icon}.svg`)
+                              .default
+                          }
+                          height="100%"
+                          width="100%"
+                        />
+                      </div>
+                      <div className="font-bold justify-center uhd:mt-3">
+                        {getTime(hourly.time)}
+                      </div>
+                      <div className="flex justify-center p-1 ">
+                        <span className="mr-2">
+                          {Math.round(hourly.data.temp)} °F
+                        </span>
+                      </div>
+                      <div className="flex justify-center p-1">
+                        {
+                          <img
+                            src={windDirection.default}
+                            className={`transform rotate-${
+                              windArrowRotation[
+                                `${
+                                  compassSector[
+                                    getWindDirection(hourly.data.wind_deg)
+                                  ]
+                                }`
+                              ]
+                            }`}
+                            height="10%"
+                            width="10%"
+                          />
+                        }
+                        <span className="ml-3">
+                          {Math.round(hourly.data.wind_speed)} mph
+                        </span>
+                      </div>
+                      <div className="flex justify-center p-1">
+                        <span>
+                          <span className="xs:text-xxs">
+                            {descriptionToUpper(hourly.data.description)}
+                          </span>{" "}
+                          <span className="flex mt-2 justify-center">
+                            <img
+                              src={rainDrop.default}
+                              className="mr-3"
+                              width="10%"
+                              height="10%"
+                            />
+                            <span className="pt-2">
+                              {Math.round(hourly.data.pop * 100)}%
+                            </span>
+                          </span>
+                        </span>
+                      </div>
+                    </li>
+                  );
+                })}
+              </ul>
             </div>
             <div className="fhd:mt-32 qhd:mt-40 uhd:mt-52">
               <ul className="grid grid-cols-8 qhd:mt-5 uhd:mt-32">
@@ -238,22 +306,23 @@ export function Weather() : React.ReactElement {
                       className="fhd:text-xs qhd:text-2xl uhd:text-3xl"
                       key={key}
                     >
-                      <span className="font-bold">
+                      <span className="font-bold xs:text-xs">
                         {daily.day.substring(0, 3)} {getDailyDate(daily.date)}
                       </span>
                       <div className="flex justify-center">
                         <img
                           src={
-                            require(`./../../assets/img/${daily.data.weather_icon}.png`)
+                            require(`./../../assets/img/${daily.data.weather_icon}.svg`)
                               .default
                           }
-                          height="25%"
-                          width="25%"
+                          className=""
+                          height="100%"
+                          width="100%"
                         />
                       </div>
                       <div className="grid grid-cols-1">
                         <span className="pt-3">
-                          <span className="font-bold text-2xl uhd:text-6xl">
+                          <span className="font-bold xs:text-sm text-2xl uhd:text-6xl">
                             {" "}
                             {Math.round(daily.data.temp.max)} °F{" "}
                           </span>
@@ -262,7 +331,7 @@ export function Weather() : React.ReactElement {
                           </span>
                         </span>
                       </div>
-                      <div className="pt-3">
+                      <div className="pt-3 xs:text-xs">
                         {descriptionToUpper(daily.data.description)}
                       </div>
                     </li>
