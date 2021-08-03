@@ -1,5 +1,5 @@
 from logging import debug
-from .search import Search
+from search import Search
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn

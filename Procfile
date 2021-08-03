@@ -1,1 +1,1 @@
-web: gunicorn -w 4 -k uvicorn.workers.UvicornWorker service.app:app
+web: gunicorn -w 4 -k uvicorn.workers.UvicornWorker service.app:app --pythonpath=./service

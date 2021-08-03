@@ -1,5 +1,5 @@
 import os
-from .location import Location
+from location import Location
 from urllib.error import URLError
 from dotenv import load_dotenv
 import requests

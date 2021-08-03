@@ -1,4 +1,4 @@
-from .forecast import Forecast
+from forecast import Forecast
 
 class Search:
 
