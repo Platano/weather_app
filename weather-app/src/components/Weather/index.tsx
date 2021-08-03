@@ -24,6 +24,8 @@ export function Weather() : React.ReactElement {
   const [error, setError] = useState(null);
   const rainDrop = require("./../../assets/img/rain-drop.svg");
   const windDirection = require("./../../assets/img/right-arrow.svg");
+  const worldMap = require("./../../assets/img/world.svg");
+
   const initialRender = useRef(true);
 
   function weatherInfo<T>(loc: string): Promise<AxiosResponse<T>> {
@@ -31,8 +33,7 @@ export function Weather() : React.ReactElement {
       headers: { "Access-Control-Allow-Origin": true },
     });
   }
-   
-  
+
   useEffect(() => {
     async function getWeatherData(loc: string) {
       try {
@@ -40,7 +41,7 @@ export function Weather() : React.ReactElement {
         setWeatherData(response.data);
       } catch (err) {
         setError(err);
-        return<div>Error: {error.message}</div>;
+        return <div>Error: {error.message}</div>;
       }
     }
 
@@ -50,6 +51,7 @@ export function Weather() : React.ReactElement {
       getWeatherData(location);
     }
   }, [location]);
+
 
   return (
     <div className="text-center">
@@ -66,8 +68,8 @@ export function Weather() : React.ReactElement {
         />
       </div>
       <div className="mt-4">
-        {weatherData && (
-          <div className="qhd:text-2xl uhd:text-3xl">
+        {weatherData ? (
+          <div className="qhd:text-2xl uhd:text-3xl ">
             {getLocationHeading([
               weatherData.city,
               weatherData.state,
@@ -82,18 +84,18 @@ export function Weather() : React.ReactElement {
                       require(`./../../assets/img/${weatherData.current.weather_icon}.svg`)
                         .default
                     }
-                    height="30%"
-                    width="30%"
+                    height="50%"
+                    width="50%"
                   />
                 </div>
-                <div className="font-bold uhd:pt-4 qhd:text-3xl uhd:5xl">
+                <div className="font-bold uhd:pt-4 qhd:text-2xl uhd:5xl">
                   {Math.ceil(weatherData.current.temp)} °F
                 </div>
                 <div>{descriptionToUpper(weatherData.current.description)}</div>
-                <span className="text-xs uhd:text-3xl">
+                <span className="text-xs uhd:text-2xl">
                   Updated as of {weatherData.current.time}
                 </span>
-                <ul className="grid grid-cols-2 fhd:text-xs uhd:text-3xl uhd:pt-3">
+                <ul className="grid grid-cols-2 fhd:text-xs uhd:text-2xl uhd:pt-3">
                   <li className="p-2">
                     <span className="font-bold">UV:</span>{" "}
                     {weatherData.current.uvindex}
@@ -126,7 +128,7 @@ export function Weather() : React.ReactElement {
                     height="10%"
                     width="10%"
                   />
-                  <span className="uhd:text-4xl p-3">
+                  <span className="uhd:text-2xl p-3">
                     {Math.round(weatherData.current.wind_speed)} mph
                   </span>
                 </div>
@@ -159,12 +161,12 @@ export function Weather() : React.ReactElement {
               </div>
             </div>
             <div>
-              <ul className="xs:hidden mt-32">
+              <ul className="xs:hidden">
                 <Slider {...settings}>
                   {weatherData.hourly.map((hourly, key) => {
                     return (
                       <li
-                        className="fhd:text-xs qhd:text-md uhd:text-3xl"
+                        className="fhd:text-xs qhd:text-sm uhd:text-3xl"
                         key={key}
                       >
                         <div className="flex justify-center">
@@ -232,10 +234,7 @@ export function Weather() : React.ReactElement {
               <ul className=" fhd:hidden qhd:hidden uhd:hidden flex grid grid-cols-4">
                 {weatherData.hourly.map((hourly, key) => {
                   return (
-                    <li
-                      className="text-xs qhd:text-md uhd:text-3xl"
-                      key={key}
-                    >
+                    <li className="text-xs qhd:text-sm uhd:text-3xl" key={key}>
                       <div className="flex justify-center">
                         <img
                           src={
@@ -298,12 +297,12 @@ export function Weather() : React.ReactElement {
                 })}
               </ul>
             </div>
-            <div className="fhd:mt-32 qhd:mt-40 uhd:mt-52">
+            <div className="uhd:mt-56">
               <ul className="grid grid-cols-8 qhd:mt-5 uhd:mt-32">
                 {weatherData.daily.map((daily, key) => {
                   return (
                     <li
-                      className="fhd:text-xs qhd:text-2xl uhd:text-3xl"
+                      className="fhd:text-xs qhd:text-xl uhd:text-3xl"
                       key={key}
                     >
                       <span className="font-bold xs:text-xs">
@@ -316,8 +315,8 @@ export function Weather() : React.ReactElement {
                               .default
                           }
                           className=""
-                          height="100%"
-                          width="100%"
+                          height="50%"
+                          width="50%"
                         />
                       </div>
                       <div className="grid grid-cols-1">
@@ -340,6 +339,13 @@ export function Weather() : React.ReactElement {
               </ul>
             </div>
           </div>
+        ) : (
+          <img
+            src={worldMap.default}
+            className="mt-56"
+            height="100%"
+            width="100%"
+          />
         )}
       </div>
     </div>
@@ -347,3 +353,4 @@ export function Weather() : React.ReactElement {
 }
 
 export default Weather;
+

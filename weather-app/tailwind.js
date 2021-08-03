@@ -14,8 +14,8 @@ module.exports = {
       xxl: { min: "1359px" }, // Desktop widescreen.
       ipadpro: { width: "1366px", height: "1024px" },
       hd: { width: "1280px", height: "720px" },
-      fhd: { width: "1920px", height: "1080px" }, //FHD 1920x1080
-      qhd: { width: "2560px", height: "1440px" },
+      fhd: { max: "1439px", min: "1200px" }, //FHD 1920x1080
+      qhd: { max: "2560px", min: "1440px" },
       uhd: { width: "3840px", height: "2160px" }, //UHD 3840x2160
     },
     colors: {
