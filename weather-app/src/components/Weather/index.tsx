@@ -29,7 +29,7 @@ export function Weather() : React.ReactElement {
   const initialRender = useRef(true);
 
   function weatherInfo<T>(loc: string): Promise<AxiosResponse<T>> {
-    return axios.get<T>(`https://weather-jeff.herokuapp.com/weather/${loc}`, {
+    return axios.get<T>(`http://73.138.40.68:8000/weather/${loc}`, {
       headers: { "Access-Control-Allow-Origin": true },
     });
   }
